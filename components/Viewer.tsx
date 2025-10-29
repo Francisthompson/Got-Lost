@@ -133,10 +133,13 @@ const Viewer: React.FC<ViewerProps> = ({ initialScene = 'mainEntrance' }) => {
   }
 
   return (
-    <div className="relative w-full h-full bg-gray-900">
+   <div className="relative w-full h-full bg-[#0C2340]">
+
+
       {/* Loading indicator */}
       {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center z-30 bg-gray-900">
+        <div className="absolute inset-0 flex items-center justify-center z-30 bg-[#0C2340]">
+
           <div className="text-center">
             <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-white mx-auto mb-4"></div>
             <p className="text-white">Loading panorama...</p>

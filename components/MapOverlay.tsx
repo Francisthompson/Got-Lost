@@ -20,7 +20,8 @@ const MapOverlay: React.FC<MapOverlayProps> = ({ currentScene, onSceneSelect }) 
         Campus Map
       </h3>
       
-      <div className="relative bg-gray-100 rounded-md h-40 overflow-hidden border-2 border-gray-200">
+      <div className="relative bg-[#0C2340] rounded-md h-40 overflow-hidden border-2 border-gray-200">
+
         {/* Placeholder map */}
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-gray-400 text-xs">Mini Map View</div>
