@@ -4,7 +4,7 @@ import Viewer from '@/components/Viewer';
 import MapOverlay from '@/components/MapOverlay';
 
 const Home: React.FC = () => {
-  const [currentScene, setCurrentScene] = useState('mainEntrance');
+  const [currentScene, setCurrentScene] = useState('location_002');
 
   const handleSceneChange = (sceneId: string) => {
     setCurrentScene(sceneId);
