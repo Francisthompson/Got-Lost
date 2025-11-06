@@ -44,10 +44,16 @@ const Viewer: React.FC<ViewerProps> = ({ initialScene = 'mainEntrance' }) => {
       document.head.appendChild(link);
 
       script.onload = () => {
-        initViewer();
+        // Small delay to ensure library is fully ready
+        setTimeout(() => {
+          initViewer();
+        }, 100);
       };
     } else if (window.pannellum) {
-      initViewer();
+      // Small delay to ensure DOM is ready
+      setTimeout(() => {
+        initViewer();
+      }, 100);
     }
 
     return () => {
@@ -62,7 +68,14 @@ const Viewer: React.FC<ViewerProps> = ({ initialScene = 'mainEntrance' }) => {
   }, [sceneConfig]);
 
   const initViewer = () => {
-    if (!viewerRef.current || !sceneConfig || !window.pannellum) return;
+    if (!viewerRef.current || !sceneConfig || !window.pannellum) {
+      console.log('Viewer not ready:', { 
+        viewerRef: !!viewerRef.current, 
+        sceneConfig: !!sceneConfig, 
+        pannellum: !!window.pannellum 
+      });
+      return;
+    }
 
     // Destroy existing viewer
     if (pannellumViewerRef.current) {
@@ -72,6 +85,14 @@ const Viewer: React.FC<ViewerProps> = ({ initialScene = 'mainEntrance' }) => {
         // Ignore errors
       }
     }
+
+    console.log('Initializing viewer with:', sceneConfig.imageUrl);
+
+    // Test if image can load
+    const img = new Image();
+    img.onload = () => console.log('Image file loaded successfully, dimensions:', img.width, 'x', img.height, 'Aspect ratio:', (img.width / img.height).toFixed(2));
+    img.onerror = () => console.error('Image file failed to load');
+    img.src = sceneConfig.imageUrl;
 
     try {
       // Configure hotspots
@@ -100,19 +121,30 @@ const Viewer: React.FC<ViewerProps> = ({ initialScene = 'mainEntrance' }) => {
         showFullscreenCtrl: true,
         mouseZoom: true,
         hotSpots: hotspots,
+        crossOrigin: 'anonymous',
         onLoad: () => {
+          console.log('Panorama loaded successfully');
           setIsLoading(false);
           setError(null);
         },
         onError: (err: string) => {
+          console.error('Panorama load error:', err);
           setIsLoading(false);
           setError(err || 'Failed to load panorama');
         },
       });
+
+      // Fallback: If load doesn't trigger after 5 seconds, force hide loading
+      setTimeout(() => {
+        if (isLoading) {
+          console.warn('Load callback not triggered, forcing load complete');
+          setIsLoading(false);
+        }
+      }, 5000);
     } catch (err) {
+      console.error('Viewer initialization error:', err);
       setIsLoading(false);
       setError('Failed to initialize viewer');
-      console.error('Pannellum error:', err);
     }
   };
 
@@ -133,10 +165,13 @@ const Viewer: React.FC<ViewerProps> = ({ initialScene = 'mainEntrance' }) => {
   }
 
   return (
-    <div className="relative w-full h-full bg-gray-900">
+   <div className="relative w-full h-full bg-[#0C2340]">
+
+
       {/* Loading indicator */}
       {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center z-30 bg-gray-900">
+        <div className="absolute inset-0 flex items-center justify-center z-30 bg-[#0C2340]">
+
           <div className="text-center">
             <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-white mx-auto mb-4"></div>
             <p className="text-white">Loading panorama...</p>
