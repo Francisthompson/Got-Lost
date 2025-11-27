@@ -4,14 +4,14 @@ import Link from 'next/link';
 const Navbar: React.FC = () => {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-primary shadow-md">
-      <div className="container mx-auto px-4 py-0 flex items-center justify-between">
+      <div className="container mx-auto px-4 py-2 flex items-center justify-between">
         {/* Left side: Logo + Title */}
-        <div className="flex items-center space-x-0">
+        <div className="flex items-center space-x-4">
           {/* Logo */}
           <img
-            src="/assets/MASCOT.svg"
+            src="/assets/GlOwlRed.svg"
             alt="Mascot Logo"
-            className="w-20 h-20 object-cover"
+            className="w-12 h-12 object-cover"
             style={{ objectPosition: 'center' }}
           />
           {/* Title */}
